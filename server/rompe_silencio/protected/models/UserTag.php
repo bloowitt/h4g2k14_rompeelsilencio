@@ -1,26 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "User".
+ * This is the model class for table "UserTag".
  *
- * The followings are the available columns in table 'User':
- * @property integer $Id
- * @property string $username
- * @property string $passwordhash
- * @property string $name
- * @property string $email
+ * The followings are the available columns in table 'UserTag':
+ * @property integer $UserId
+ * @property integer $TagId
  */
-class User extends CActiveRecord
+class UserTag extends CActiveRecord
 {
-	
-	public $password;
-	
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'User';
+		return 'UserTag';
 	}
 
 	/**
@@ -31,12 +25,11 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username','unique'),
-			array('username, password, name, email, telephone', 'required'),
-			array('username, password, name, email', 'length', 'max'=>45),
+			array('UserId, TagId', 'required'),
+			array('UserId, TagId', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			//array('Id, username, passwordhash, name, email', 'safe', 'on'=>'search'),
+			array('UserId, TagId', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,6 +41,7 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::BELONGS_TO, 'User', 'UserId'),
 		);
 	}
 
@@ -57,11 +51,8 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'Id' => 'Id',
-			'username' => 'Username',
-			'passwordhash' => 'Passwordhash',
-			'name' => 'Name',
-			'email' => 'Email',
+			'UserId' => 'User',
+			'TagId' => 'Tag',
 		);
 	}
 
@@ -83,51 +74,21 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('Id',$this->Id);
+		$criteria->compare('UserId',$this->UserId);
 
-		$criteria->compare('username',$this->username,true);
+		$criteria->compare('TagId',$this->TagId);
 
-		$criteria->compare('passwordhash',$this->passwordhash,true);
-
-		$criteria->compare('name',$this->name,true);
-
-		$criteria->compare('email',$this->email,true);
-
-		return new CActiveDataProvider('User', array(
+		return new CActiveDataProvider('UserTag', array(
 			'criteria'=>$criteria,
 		));
 	}
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return User the static model class
+	 * @return UserTag the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-	
-	public function beforeSave() {
-		if (!empty($this->password)) {
-			$this->passwordhash = self::hashPassword($this->password);
-		}
-		return parent::beforeSave();
-	}
-	
-	public static function hashPassword($password)
-	{
-		return crypt($password, self::generateSalt());
-	}
-	
-	public static function generateSalt(){
-		$staticsalt = 'rompe_tu_silencio_hashtag_2014';
-		$random = md5(uniqid(mt_rand(), true));
-		$salt = hash('sha512',$random.microtime().$staticsalt);
-		return '$2a$12$'.$salt;
-	}
-	
-	public function validatePassword($password)
-	{
-		return crypt($password,$this->passwordhash)===$this->passwordhash;
 	}
 }

@@ -21,7 +21,7 @@ class UserIdentity extends CUserIdentity
 			$this->createAdminUser();
 		}
 		
-		$user= User::model()->find('LOWER(username)=?',array(strtolower($this->username)));
+		$user= User::model()->find('LOWER(username)=? and enabled=1',array(strtolower($this->username)));
 		if($user===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
 		else if(!$user->validatePassword($this->password))
@@ -34,16 +34,20 @@ class UserIdentity extends CUserIdentity
 	}
 	
 	public function createAdminUser() {
-		
-		$auth->createRole('admin');
+		$auth = Yii::app()->authManager;
+		$adminRole = $auth->getAuthItem("admin");
+		if (!isset($adminRole))
+			$auth->createRole('admin');
 		
 		$user = new User();
 		$user->name = "Admin";
 		$user->username = "admin";
 		$user->password = "admin";
+		$user->enabled = 1;
 		$user->insert();
 		
-		$auth = Yii::app()->authManager;
-		$auth->assign('admin',$user->Id);
+		$authAssigment = $auth->getAuthAssignment('admin', $user->username);
+		if (!isset($authAssigment))
+			$auth->assign('admin',$user->username);
 	}
 }

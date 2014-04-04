@@ -78,16 +78,19 @@ class SiteController extends Controller
 	public function actionLogin()
 	{
 		$model=new LoginForm;
-
+		$model->attributes=$_POST;
+		if (!$model->login()) {
+			$this->_sendResponse(401,"Invalid credentials");
+		}
 		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+		/*if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
-		}
+		}*/
 
 		// collect user input data
-		if(isset($_POST['LoginForm']))
+		/*if(isset($_POST['LoginForm']))
 		{
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
@@ -95,7 +98,7 @@ class SiteController extends Controller
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
-		$this->render('login',array('model'=>$model));
+		$this->render('login',array('model'=>$model));*/
 	}
 
 	/**
