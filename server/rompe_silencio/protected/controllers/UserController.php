@@ -83,5 +83,21 @@ class UserController extends Controller
 					json_encode($model->errors));
 		}
 	}
+	
+	public function actionEnable() {
+		if (empty($_POST['id_user'])){
+			$this->_sendResponse(400,"id_user missing");
+		} else {
+			$model = User::model()->findByPk($_POST);
+			if (!isset($model)) {
+				$this->_sendResponse(404,"unknown user");
+			} else {
+				$model->enabled = 1;
+				if (!$model->save()) {
+					$this->_sendResponse(400,json_encode($model->errors));
+				}
+			}
+		}
+	}
 
 }
