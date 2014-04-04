@@ -35,12 +35,8 @@ class UserController extends Controller
 				'actions'=>array('create'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('update'),
-				'users'=>array('@'),
-			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('delete','enable','list'),
+				'actions'=>array('enable','list'),
 				'roles' => array ('admin'),
 			),
 			array('deny',  // deny all users
@@ -100,4 +96,16 @@ class UserController extends Controller
 		}
 	}
 
+	public function actionList() {
+		$users = User::model()->findAll();
+		$data = array();
+		foreach ($users as $user) {
+			$data[] = array(
+				"id_user" => $user->UserId,
+				"name" => $user->name,
+				"enabled" => $user->enabled,
+			);
+		}
+		print json_encode($data);
+	}
 }
