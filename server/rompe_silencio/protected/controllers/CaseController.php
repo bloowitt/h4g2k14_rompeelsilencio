@@ -85,4 +85,35 @@ class CaseController extends Controller
 		}
 	}
 
+	public function actionResponse() {
+		if (!isset(Yii::app()->user)) {
+			if (empty($_POST['id_mobile']) && empty($_POST['password'])) {
+				$this->_sendResponse(400,"bad request");
+				return;
+			}
+		}
+		$case = MCase::model()->findByAttributes(array(
+			"Identificator" => $_POST['id_case'],
+		));
+		if (!isset($case)) {
+			$this->_sendResponse(400,"bad request");
+			return;
+		}
+		if (!empty($_POST['id_mobile']) && $case->MobileId !== $_POST['id_mobile']){
+			$this->_sendResponse(403,"not authorized");
+			return;
+		}
+		if (!empty($_POST['password']) && !$case->validatePassword($_POST['password'])){
+			$this->_sendResponse(403,"not authorized");
+			return;
+		}
+
+		$resp = new Response();
+		$resp->CaseId = $case->CaseId;
+		$resp->Text = $_POST['text'];
+		$resp->TS = new CDbExpression("NOW()");
+		$resp->UserId = Yii::app()->user->id;
+		
+		$resp->insert();
+	}
 }

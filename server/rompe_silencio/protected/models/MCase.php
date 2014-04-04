@@ -144,4 +144,9 @@ class MCase extends CActiveRecord
 		return $newRand;
 	}
 	
+	public function validatePassword($password)
+	{
+		return crypt($password,$this->PasswordHash)===$this->PasswordHash;
+	}
+	
 }
