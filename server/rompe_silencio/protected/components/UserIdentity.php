@@ -28,6 +28,7 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
+			$this->_id=$user->id;
 			$this->errorCode=self::ERROR_NONE;
 		}
 		return $this->errorCode==self::ERROR_NONE;
@@ -49,5 +50,10 @@ class UserIdentity extends CUserIdentity
 		$authAssigment = $auth->getAuthAssignment('admin', $user->username);
 		if (!isset($authAssigment))
 			$auth->assign('admin',$user->username);
+	}
+	
+	public function getId()
+	{
+		return $this->_id;
 	}
 }
