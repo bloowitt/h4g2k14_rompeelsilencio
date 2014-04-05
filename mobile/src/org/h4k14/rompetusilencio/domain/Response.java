@@ -6,7 +6,7 @@ import org.json.JSONObject;
 public class Response {
 
 	private int author;
-	private long timestamp;
+	private String timestamp;
 	private String text;
 	public int getAuthor() {
 		return author;
@@ -14,10 +14,10 @@ public class Response {
 	public void setAuthor(int author) {
 		this.author = author;
 	}
-	public long getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
-	public void setTimestamp(long timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 	public String getText() {
@@ -29,7 +29,7 @@ public class Response {
 	public static Response parseJsonResponse(JSONObject jsonResponse) throws JSONException {
 		Response r = new Response();
 		r.author = jsonResponse.getInt("author");
-		r.timestamp = jsonResponse.getLong("ts");
+		r.timestamp = jsonResponse.getString("ts");
 		r.text = jsonResponse.getString("text");
 		return r;
 	}

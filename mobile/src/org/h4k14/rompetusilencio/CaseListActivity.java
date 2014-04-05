@@ -57,11 +57,7 @@ public class CaseListActivity extends ActionBarActivity {
 	
 					@Override
 					public int compare(Case lhs, Case rhs) {
-						long l = lhs.getLatestResponseTimeStamp();
-						long r = rhs.getLatestResponseTimeStamp();
-						if (l > r) return -1;
-						if (l < r) return 1;
-						return 0;
+						return lhs.getTimestamp().compareTo(rhs.getTimestamp());
 					}
 					
 				});
@@ -91,7 +87,7 @@ public class CaseListActivity extends ActionBarActivity {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
-					
+					Case c = cases.get(position);
 				}
 			});
 			
