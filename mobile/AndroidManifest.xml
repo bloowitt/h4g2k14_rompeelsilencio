@@ -21,6 +21,10 @@
             android:name="org.h4k14.rompetusilencio.CaseListActivity"
             android:label="@string/title_activity_case_list" >
         </activity>
+        <activity
+            android:name="org.h4k14.rompetusilencio.NewCaseActivity"
+            android:label="@string/title_activity_new_case" >
+        </activity>
     </application>
 
 </manifest>

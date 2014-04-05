@@ -10,6 +10,7 @@ import org.h4k14.rompetusilencio.net.APIManager;
 import org.h4k14.rompetusilencio.ui.CaseAdapter;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -83,13 +86,22 @@ public class CaseListActivity extends ActionBarActivity {
 			caseAdapter = new CaseAdapter(getActivity(), cases);
 			caseList = (ListView) rootView.findViewById(R.id.cases);
 			caseList.setAdapter(caseAdapter);
+			caseList.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					
+				}
+			});
 			
 			Button newCase = (Button)rootView.findViewById(R.id.new_case);
 			newCase.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					// TODO
+					Intent i = new Intent(getActivity(),NewCaseActivity.class);
+					startActivity(i);
 				}
 			});
 			
