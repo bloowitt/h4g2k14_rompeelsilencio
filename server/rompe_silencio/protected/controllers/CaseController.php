@@ -121,7 +121,7 @@ class CaseController extends Controller
 			$this->_sendResponse(400,'bad request');
 			return;
 		}
-		cases = MCase::model()->findAllByAttributes(array (
+		$cases = MCase::model()->findAllByAttributes(array (
 			"MobileId" => $_POST['id_mobile'],
 		));
 		$data = array();
@@ -177,16 +177,22 @@ class CaseController extends Controller
 			return;
 		}
 		$mCase = MCase::model()->findByAttributes(array(
-				"Identificator" => $_POST['id_case'];
-			));
+			"Identificator" => $_POST['id_case'],
+		));
 		if (!isset($case)){
 			$this->_sendResponse(400,'bad request');
 			return;
 		}
 		if (empty($_POST['delete'])){
-			$case->caseTags[]
+			$t = new CaseTag();
+			$t->CaseId = $mCase->CaseId;
+			$t->TagId = $_POST['id_tag'];
+			$t->insert();
 		}else{
-			$case->caseTags[]
+			CaseTag::model()->deleteByAttributes(array(
+				"CaseId" => $mCase->CaseId,
+				"TagId" => $_POST['id_tag'],
+			));
 		}
 		$data = array();
 		print json_encode($data);
