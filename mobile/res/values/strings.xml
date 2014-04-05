@@ -1,5 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Rompe tu silencio</string>
+    <string name="title_activity_intro">IntroActivity</string>
+    <string name="hello_world">Bienvenido a blah blah.</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
