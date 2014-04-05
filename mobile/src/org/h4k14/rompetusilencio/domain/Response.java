@@ -1,5 +1,9 @@
 package org.h4k14.rompetusilencio.domain;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +36,14 @@ public class Response {
 		r.timestamp = jsonResponse.getString("ts");
 		r.text = jsonResponse.getString("text");
 		return r;
+	}
+	public static List<Response> parseJsonResponseList(String string) throws JSONException {
+		JSONArray json = new JSONArray(string);
+		List<Response> result = new LinkedList<Response>();
+		for (int i = 0; i < json.length(); i++) {
+			result.add(parseJsonResponse(json.getJSONObject(i)));
+		}
+		return result;
 	}
 	
 }

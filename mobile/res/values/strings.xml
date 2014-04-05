@@ -11,5 +11,6 @@
     <string name="title_activity_new_case">NewCaseActivity</string>
     <string name="new_case_message">Cuéntanos en que piensas</string>
     <string name="send">Enviar</string>
+    <string name="title_activity_show_case">ShowCaseActivity</string>
 
 </resources>

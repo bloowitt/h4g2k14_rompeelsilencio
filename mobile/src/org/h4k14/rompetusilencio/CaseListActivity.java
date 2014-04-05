@@ -88,6 +88,9 @@ public class CaseListActivity extends ActionBarActivity {
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					Case c = cases.get(position);
+					Intent i = new Intent(getActivity(), ShowCaseActivity.class);
+					i.putExtra(ShowCaseActivity.IDENTIFICATOR, c.getIdentifier());
+					startActivity(i);
 				}
 			});
 			

@@ -3,21 +3,23 @@ package org.h4k14.rompetusilencio.ui;
 import java.util.List;
 
 import org.h4k14.rompetusilencio.R;
-import org.h4k14.rompetusilencio.domain.Case;
+import org.h4k14.rompetusilencio.domain.Response;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CaseAdapter extends ArrayAdapter<Case>{
-
-	public CaseAdapter(Context c, List<Case> cases) {
-		super(c, R.layout.case_list_item, cases);
-	}
+public class ResponseAdapter extends ArrayAdapter<Response> {
 	
+	public ResponseAdapter(Context c, List<Response> cases) {
+		super(c, R.layout.response_item_layout, cases);
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
@@ -28,10 +30,18 @@ public class CaseAdapter extends ArrayAdapter<Case>{
 			v.setId(R.layout.case_list_item);
 		}
 
-		Case c = getItem(position);
+		Response c = getItem(position);
 
-		TextView summary = (TextView) v.findViewById(R.id.summary);
-		summary.setText(c.getResume());
+		TextView text = (TextView) v.findViewById(R.id.text);
+		text.setText(c.getText());
+		
+		LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
+		if (c.getAuthor() <= 0) {
+			llp.setMargins(0, 0, 50, 0);
+		} else {
+			llp.setMargins(50, 0, 0, 0);
+		}
+		v.setLayoutParams(llp);
 
 		return v;
 	}
