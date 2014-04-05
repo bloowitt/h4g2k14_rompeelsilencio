@@ -1,8 +1,8 @@
 package org.h4k14.rompetusilencio;
 
-import org.h4k14.rompetusilencio.utils.Prefs;
+import org.h4k14.rompetusilencio.net.APIManager;
 
-import android.content.Intent;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -10,24 +10,21 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
-public class IntroActivity extends ActionBarActivity {
+public class NewCaseActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_intro);
-		
-		Prefs prefs = new Prefs(this);
-		if (prefs.isWelcomeMsgShown()) {
-			Intent i = new Intent(this, CaseListActivity.class);
-			startActivity(i);
-		} else {
-			if (savedInstanceState == null) {
-				getSupportFragmentManager().beginTransaction()
-						.add(R.id.container, new PlaceholderFragment()).commit();
-			}
+		setContentView(R.layout.activity_new_case);
+
+		if (savedInstanceState == null) {
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
 
@@ -35,7 +32,7 @@ public class IntroActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.intro, menu);
+		getMenuInflater().inflate(R.menu.new_case, menu);
 		return true;
 	}
 
@@ -62,8 +59,27 @@ public class IntroActivity extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_intro,
+			View rootView = inflater.inflate(R.layout.fragment_new_case,
 					container, false);
+			
+			final EditText text = (EditText) rootView.findViewById(R.id.text);
+			Button send = (Button) rootView.findViewById(R.id.send);
+			send.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					try {
+						APIManager apiManager = new APIManager(getActivity());
+						apiManager.sendNewCase(text.getText().toString());
+					} catch (Exception e) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+						builder.setTitle(R.string.error);
+						builder.setMessage(e.getLocalizedMessage());
+						builder.show();
+					}
+				}
+			});
+			
 			return rootView;
 		}
 	}
