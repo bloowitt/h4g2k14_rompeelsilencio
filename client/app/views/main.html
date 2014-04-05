@@ -1,35 +1,49 @@
-<div class="header">
+<!--<div class="header">
   <ul class="nav nav-pills pull-right">
     <li class="active"><a ng-href="#">Home</a></li>
     <li><a ng-href="#">About</a></li>
     <li><a ng-href="#">Contact</a></li>
   </ul>
   <h3 class="text-muted">Ayudándonos</h3>
-</div>
-
-<!--<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
-
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
 </div>-->
+
+<div data-ng-switch="mainContent">
+  <div ng-switch-when="inicio">
+        <h4>Bienvenido a Ayudándonos. </h4>
+    <p>Ayudándonos está formado por una extensa charla de cancamusa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consectetur at sapien ut molestie. Maecenas vitae risus vel elit scelerisque eleifend. Donec imperdiet odio dui. Vestibulum ut justo leo. Integer egestas ante et erat porttitor hendrerit. Suspendisse aliquam, neque ut semper dictum, sapien erat fringilla est, ut auctor lacus dolor non risus. Ut rhoncus libero nisi, et gravida purus imperdiet quis. Praesent luctus volutpat vestibulum. Aliquam scelerisque ullamcorper congue. Nunc condimentum libero vel gravida convallis. Nam pulvinar enim arcu, et vestibulum velit placerat id. Integer tellus urna, vulputate id justo ac, volutpat eleifend sem. Donec iaculis libero vitae nibh accumsan, sit amet auctor eros tincidunt. Fusce viverra velit et pulvinar adipiscing.</p>
+
+    <p><a class="btn btn-lg btn-info" ng-click="chargeMainContent('newExpert')" ng-href="">Empieza a ayudar</a></p>
+    <p><a class="btn btn-lg btn-danger" ng-href="">Necesito ayuda</a></p>
+        
+  </div>
+
+  <div ng-switch-when="newExpert">new expert
+   <form>
+  Nombre de usuario: <input ng-model="newUser.nick">
+  Contraseña: <input ng-model="newUser.pass">
+  Nombre: <input ng-model="newUser.name">
+  E-mail: <input ng-model="newUser.mail">
+  Teléfono: <input ng-model="newUser.tlf">
+</form>
+  </div>
+
+
+  <div ng-switch-when="login">
+    <h2>Bienvenido a Cría tu periquito</h2> <br>
+    Mete tu contraseña para poder empezar a jugar.
+    <input type="text" class="form-control" placeholder="Password" ng-model="user.pass">
+
+    <p><a class="btn btn-lg btn-info" ng-click="meterPass(user.pass)" ng-href="">Empieza a jugar</a></p>
+
+  </div>
+  <div ng-switch-when="mentira">
+    Página de juego creada para proteger la intimidad de la persona que necesita ayuda
+  </div>
+  <div ng-switch-when="verdad">
+    Página verdadera donde una persona puede hablar tranquilamente de aquello que necesita
+  </div>
+
+</div>
 
 <div class="footer">
   <!--<p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>-->
