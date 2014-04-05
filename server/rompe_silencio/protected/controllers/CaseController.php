@@ -172,6 +172,22 @@ class CaseController extends Controller
 			$this->_sendResponse(403,"not authorized");
 			return;
 		}
+		if (empty($_POST['id_case']) || empty($_POST['id_tag'])){
+			$this->_sendResponse(400,'bad request');
+			return;
+		}
+		$mCase = MCase::model()->findByAttributes(array(
+				"Identificator" => $_POST['id_case'];
+			));
+		if (!isset($case)){
+			$this->_sendResponse(400,'bad request');
+			return;
+		}
+		if (empty($_POST['delete'])){
+			$case->caseTags[]
+		}else{
+			$case->caseTags[]
+		}
 		$data = array();
 		print json_encode($data);
 	}
