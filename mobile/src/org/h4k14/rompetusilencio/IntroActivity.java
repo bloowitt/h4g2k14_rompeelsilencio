@@ -1,15 +1,16 @@
 package org.h4k14.rompetusilencio;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import org.h4k14.rompetusilencio.utils.Prefs;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 public class IntroActivity extends ActionBarActivity {
 
@@ -20,7 +21,8 @@ public class IntroActivity extends ActionBarActivity {
 		
 		Prefs prefs = new Prefs(this);
 		if (prefs.isWelcomeMsgShown()) {
-			
+			Intent i = new Intent(this, CaseListActivity.class);
+			startActivity(i);
 		} else {
 			if (savedInstanceState == null) {
 				getSupportFragmentManager().beginTransaction()

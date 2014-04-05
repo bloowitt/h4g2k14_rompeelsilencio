@@ -1,4 +1,4 @@
-package org.h4k14.rompetusilencio;
+package org.h4k14.rompetusilencio.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
