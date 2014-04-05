@@ -30,7 +30,7 @@ class CaseController extends Controller
 	 */
 	public function accessRules()
 	{
-		return array(
+		/*return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('create','get','list','response'),
 				'users'=>array('*'),
@@ -42,7 +42,7 @@ class CaseController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
-		);
+		);*/
 	}
 
 	/**
@@ -85,6 +85,56 @@ class CaseController extends Controller
 		}
 	}
 
+	public function actionGet(){
+		if (empty($_POST['id_mobile']) && empty($_POST['password'])){
+			$this->_sendResponse(400,'bad request');
+			return;
+		}
+		$case = MCase::model()->findByAttributes(array(
+				"Identificator" => $_POST['id_case'],
+			));
+		if (!isset($case)){
+			$this->_sendResponse(400,'bad request');
+		}
+		if (!empty($_POST['id_mobile']) && $case->MobileId !== $_POST['id_mobile']){
+			$this->_sendResponse(403,"not authorized");
+			return;
+		}
+		if (!empty($_POST['password']) && !$case->validatePassword($_POST['password'])){
+			$this->_sendResponse(403,"not authorized");
+			return;
+		}
+		$data = array();
+		foreach ($case->responses as $response) {
+			$data[] = array(
+				"text" => $response->Text,
+				"id_author" => $response->UserId,
+				"timestamp" => $response->TS,
+			);
+		}
+		print json_encode($data);
+
+	}
+
+	public function actionList(){
+		if (empty($_POST['id_mobile'])){
+			$this->_sendResponse(400,'bad request');
+			return;
+		}
+		cases = MCase::model()->findAllByAttributes(array (
+			"MobileId" => $_POST['id_mobile'],
+		));
+		$data = array();
+		foreach ($cases as $case) {
+			$data[] = array(
+				"id_case" => $case->Identificator,
+				"summary" => @$case->responses[0]->Text,
+				"timestamp" => @$user->responses[ count($user->responses) - 1]->TS,
+			);
+		}
+		print json_encode($data);
+	}
+
 	public function actionResponse() {
 		if (!isset(Yii::app()->user)) {
 			if (empty($_POST['id_mobile']) && empty($_POST['password'])) {
@@ -116,4 +166,42 @@ class CaseController extends Controller
 		
 		$resp->insert();
 	}
+
+	public function actionTag(){
+		if (!isset(Yii::app()->user)) {
+			$this->_sendResponse(403,"not authorized");
+			return;
+		}
+		$data = array();
+		print json_encode($data);
+	}
+
+	public function actionAssign(){
+		if (!isset(Yii::app()->user)) {
+			$this->_sendResponse(403,"not authorized");
+			return;
+		}
+		$data = array();
+		print json_encode($data);
+	}
+
+	public function actionList_assigned(){
+		if (!isset(Yii::app()->user)) {
+			$this->_sendResponse(403,"not authorized");
+			return;
+		}
+		$data = array();
+		print json_encode($data);
+	}
+
+	public function actionList_by_field(){
+		if (!isset(Yii::app()->user)) {
+			$this->_sendResponse(403,"not authorized");
+			return;
+		}
+		$data = array();
+		print json_encode($data);
+	}
+	
+
 }
