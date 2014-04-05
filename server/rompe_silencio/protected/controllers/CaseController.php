@@ -30,6 +30,7 @@ class CaseController extends Controller
 	 */
 	public function accessRules()
 	{
+		return  array();
 		/*return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('create','get','list','response'),
